@@ -48,6 +48,8 @@ class XiaoHongShuClient(AbstractApiClient):
         self._domain = "https://www.xiaohongshu.com"
         self.IP_ERROR_STR = "网络连接异常，请检查网络设置或重启试试"
         self.IP_ERROR_CODE = 300012
+        self.ACCOUNT_ABNORMAL_STR = "检测到账号异常，请稍后重启试试"
+        self.ACCOUNT_ABNORMAL_CODE = 300011
         self.NOTE_ABNORMAL_STR = "笔记状态异常，请稍后查看"
         self.NOTE_ABNORMAL_CODE = -510001
         self.playwright_page = playwright_page
@@ -99,23 +101,63 @@ class XiaoHongShuClient(AbstractApiClient):
         async with httpx.AsyncClient(proxy=self.proxy) as client:
             response = await client.request(method, url, timeout=self.timeout, **kwargs)
 
+        # 先检查响应体中的错误码（某些情况下状态码是200但body中有错误）
+        if not return_response:
+            try:
+                data: Dict = response.json()
+                # 检查账号异常错误码
+                if data.get("code") == self.ACCOUNT_ABNORMAL_CODE:
+                    error_msg = data.get("msg", self.ACCOUNT_ABNORMAL_STR)
+                    utils.logger.error(
+                        f"[XiaoHongShuClient.request] 账号异常，请求失败，status: {response.status_code}, "
+                        f"code: {self.ACCOUNT_ABNORMAL_CODE}, msg: {error_msg}"
+                    )
+                    raise IPBlockError(f"{self.ACCOUNT_ABNORMAL_STR} (code: {self.ACCOUNT_ABNORMAL_CODE})")
+                # 检查IP封禁错误码
+                elif data.get("code") == self.IP_ERROR_CODE:
+                    raise IPBlockError(self.IP_ERROR_STR)
+                # 如果成功，直接返回
+                elif data.get("success"):
+                    return data.get("data", data.get("success", {}))
+            except (json.JSONDecodeError, KeyError):
+                # 如果无法解析JSON，继续检查状态码
+                pass
+
+        # 检查HTTP状态码（验证码相关）
         if response.status_code == 471 or response.status_code == 461:
-            # someday someone maybe will bypass captcha
-            verify_type = response.headers["Verifytype"]
-            verify_uuid = response.headers["Verifyuuid"]
-            msg = f"出现验证码，请求失败，Verifytype: {verify_type}，Verifyuuid: {verify_uuid}, Response: {response}"
+            # 安全地获取验证码相关header
+            verify_type = response.headers.get("Verifytype")
+            verify_uuid = response.headers.get("Verifyuuid")
+            
+            # 尝试解析响应体获取更多信息
+            body_preview = ""
+            try:
+                body_text = response.text[:200] if len(response.text) > 200 else response.text
+                body_preview = f", body: {body_text}"
+            except:
+                pass
+            
+            msg = (
+                f"[XiaoHongShuClient.request] 出现验证码或账号异常，请求失败，"
+                f"status: {response.status_code}, Verifytype: {verify_type}, "
+                f"Verifyuuid: {verify_uuid}{body_preview}"
+            )
             utils.logger.error(msg)
-            raise Exception(msg)
+            raise IPBlockError(msg)
 
         if return_response:
             return response.text
-        data: Dict = response.json()
-        if data["success"]:
-            return data.get("data", data.get("success", {}))
-        elif data["code"] == self.IP_ERROR_CODE:
-            raise IPBlockError(self.IP_ERROR_STR)
-        else:
-            raise DataFetchError(data.get("msg", None))
+        
+        # 如果之前没有返回，尝试解析JSON
+        try:
+            data: Dict = response.json()
+            if data.get("success"):
+                return data.get("data", data.get("success", {}))
+            else:
+                error_msg = data.get("msg", f"未知错误，code: {data.get('code')}")
+                raise DataFetchError(error_msg)
+        except json.JSONDecodeError:
+            raise DataFetchError(f"无法解析响应JSON，状态码: {response.status_code}, 响应: {response.text[:200]}")
 
     async def get(self, uri: str, params=None) -> Dict:
         """

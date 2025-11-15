@@ -112,7 +112,7 @@ def _inject_init_db_default(args: Sequence[str]) -> list[str]:
         arg = args[i]
         normalized.append(arg)
 
-        if arg == "--init_db":
+        if arg in ["--init_db", "--init-db"]:
             next_arg = args[i + 1] if i + 1 < len(args) else None
             if not next_arg or next_arg.startswith("-"):
                 normalized.append(InitDbOptionEnum.SQLITE.value)
@@ -197,8 +197,9 @@ async def parse_cmd(argv: Optional[Sequence[str]] = None):
             SaveDataOptionEnum, config.SAVE_DATA_OPTION, SaveDataOptionEnum.JSON
         ),
         init_db: Annotated[
-            Optional[InitDbOptionEnum],
+            Optional[str],
             typer.Option(
+                "--init-db",
                 "--init_db",
                 help="初始化数据库表结构 (sqlite | mysql)",
                 rich_help_panel="存储配置",
@@ -217,7 +218,15 @@ async def parse_cmd(argv: Optional[Sequence[str]] = None):
 
         enable_comment = _to_bool(get_comment)
         enable_sub_comment = _to_bool(get_sub_comment)
-        init_db_value = init_db.value if init_db else None
+        # 处理init_db参数
+        if init_db:
+            try:
+                init_db_value = InitDbOptionEnum(init_db).value
+            except ValueError:
+                # 如果无法转换为枚举，直接使用字符串值
+                init_db_value = init_db if init_db in ["sqlite", "mysql"] else None
+        else:
+            init_db_value = None
 
         # override global config
         config.PLATFORM = platform.value

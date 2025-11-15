@@ -33,3 +33,34 @@ async def close():
     Placeholder for closing database connections if needed in the future.
     """
     pass
+# In db.py
+def get_db_engine():
+    """
+    创建并返回一个同步数据库引擎，用于Streamlit dashboard等需要同步访问的场景
+    支持SQLite和MySQL数据库
+    """
+    from sqlalchemy import create_engine
+    import config
+    from config.db_config import mysql_db_config, sqlite_db_config
+    
+    # 根据配置决定使用哪种数据库
+    db_type = config.SAVE_DATA_OPTION
+    
+    if db_type == "sqlite":
+        # SQLite使用同步引擎
+        db_url = f"sqlite:///{sqlite_db_config['db_path']}"
+        engine = create_engine(db_url, echo=False)
+        return engine
+    elif db_type in ["mysql", "db"]:
+        # MySQL使用pymysql驱动（同步）
+        try:
+            import pymysql
+        except ImportError:
+            raise ImportError(
+                "使用MySQL数据库需要安装pymysql，请运行: pip install pymysql"
+            )
+        db_url = f"mysql+pymysql://{mysql_db_config['user']}:{mysql_db_config['password']}@{mysql_db_config['host']}:{mysql_db_config['port']}/{mysql_db_config['db_name']}"
+        engine = create_engine(db_url, echo=False)
+        return engine
+    else:
+        raise ValueError(f"Unsupported database type for sync engine: {db_type}. Please use 'sqlite' or 'db'/'mysql'")

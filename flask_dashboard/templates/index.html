@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>爬取数据分析</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-2.26.0.min.js"></script>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- 侧边栏导航 -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1>🎯 导航</h1>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active" data-page="overview">
+                    <span>📊</span> 概览
+                </a>
+                <a href="#" class="nav-item" data-page="bilibili">
+                    <span>📺</span> Bilibili 分析
+                </a>
+                <a href="#" class="nav-item" data-page="douyin">
+                    <span>🎵</span> 抖音分析
+                </a>
+                <a href="#" class="nav-item" data-page="kuaishou">
+                    <span>⚡</span> 快手分析
+                </a>
+                <a href="#" class="nav-item" data-page="weibo">
+                    <span>📱</span> 微博分析
+                </a>
+                <a href="#" class="nav-item" data-page="zhihu">
+                    <span>📚</span> 知乎分析
+                </a>
+                <a href="#" class="nav-item" data-page="tieba">
+                    <span>💬</span> 贴吧分析
+                </a>
+                <a href="#" class="nav-item" data-page="cross-platform">
+                    <span>🔗</span> 跨平台对比
+                </a>
+                <a href="#" class="nav-item" data-page="semantic">
+                    <span>🧠</span> 语义洞察
+                </a>
+            </nav>
+            
+            <div class="sidebar-filters">
+                <div class="filter-section">
+                    <h3>📅 日期范围</h3>
+                    <div class="date-inputs">
+                        <input type="date" id="start-date" class="date-input">
+                        <input type="date" id="end-date" class="date-input">
+                    </div>
+                </div>
+                
+                <div class="filter-section">
+                    <h3>🔧 平台筛选</h3>
+                    <div class="platform-checkboxes">
+                        <label><input type="checkbox" value="Bilibili" checked> Bilibili</label>
+                        <label><input type="checkbox" value="Douyin" checked> Douyin</label>
+                        <label><input type="checkbox" value="Kuaishou"> Kuaishou</label>
+                        <label><input type="checkbox" value="Weibo"> Weibo</label>
+                        <label><input type="checkbox" value="Xiaohongshu"> Xiaohongshu</label>
+                        <label><input type="checkbox" value="Zhihu"> Zhihu</label>
+                        <label><input type="checkbox" value="Tieba"> Tieba</label>
+                    </div>
+                </div>
+                
+                <div class="filter-section">
+                    <h3>⚙️ 设置</h3>
+                    <label class="switch">
+                        <input type="checkbox" id="auto-refresh">
+                        <span class="slider"></span>
+                        自动刷新数据
+                    </label>
+                    <input type="range" id="refresh-interval" min="1" max="60" value="5" disabled>
+                    <span id="refresh-interval-value">5 分钟</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- 主内容区 -->
+        <main class="main-content">
+            <!-- Overview页面 -->
+            <div id="page-overview" class="page active">
+                <h1 class="page-title">📊 爬取数据分析</h1>
+                
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-label">总记录数</div>
+                        <div class="metric-value" id="metric-total-records">-</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">活跃平台数</div>
+                        <div class="metric-value" id="metric-active-platforms">-</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">平均记录数/平台</div>
+                        <div class="metric-value" id="metric-avg-records">-</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">总表数</div>
+                        <div class="metric-value" id="metric-total-tables">-</div>
+                    </div>
+                </div>
+
+                <div class="charts-container">
+                    <div class="chart-card">
+                        <h3>📈 平台数据分布</h3>
+                        <canvas id="overview-chart"></canvas>
+                    </div>
+                    <div class="chart-card">
+                        <h3>📋 平台汇总</h3>
+                        <div id="overview-table"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bilibili Analytics页面 -->
+            <div id="page-bilibili" class="page">
+                <h1 class="page-title">📺 Bilibili 数据分析</h1>
+                
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-label">视频总数</div>
+                        <div class="metric-value" id="bilibili-total-videos">-</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">平均点赞数</div>
+                        <div class="metric-value" id="bilibili-avg-likes">-</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">平均播放数</div>
+                        <div class="metric-value" id="bilibili-avg-plays">-</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">创作者数量</div>
+                        <div class="metric-value" id="bilibili-creators">-</div>
+                    </div>
+                </div>
+
+                <div class="charts-container">
+                    <div class="chart-card">
+                        <h3>🏆 按总点赞数排序的顶级创作者</h3>
+                        <canvas id="bilibili-top-creators-chart"></canvas>
+                    </div>
+                    <div class="chart-card">
+                        <h3>📅 视频发布时间线</h3>
+                        <div id="bilibili-timeline-chart"></div>
+                    </div>
+                </div>
+
+                <div class="data-table-container">
+                    <h3>📋 详细视频数据</h3>
+                    <div id="bilibili-table"></div>
+                </div>
+            </div>
+
+            <!-- Douyin Analytics页面 -->
+            <div id="page-douyin" class="page">
+                <h1 class="page-title">🎵 抖音数据分析</h1>
+                
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-label">视频总数</div>
+                        <div class="metric-value" id="douyin-total-videos">-</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">平均点赞数</div>
+                        <div class="metric-value" id="douyin-avg-likes">-</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">平均评论数</div>
+                        <div class="metric-value" id="douyin-avg-comments">-</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">创作者数量</div>
+                        <div class="metric-value" id="douyin-creators">-</div>
+                    </div>
+                </div>
+
+                <div class="charts-container">
+                    <div class="chart-card">
+                        <h3>🏆 按总点赞数排序的顶级创作者</h3>
+                        <canvas id="douyin-top-creators-chart"></canvas>
+                    </div>
+                    <div class="chart-card">
+                        <h3>📅 视频发布时间线</h3>
+                        <div id="douyin-timeline-chart"></div>
+                    </div>
+                </div>
+
+                <div class="data-table-container">
+                    <h3>📋 详细视频数据</h3>
+                    <div id="douyin-table"></div>
+                </div>
+            </div>
+
+            <!-- Kuaishou Analytics页面 -->
+            <div id="page-kuaishou" class="page">
+                <h1 class="page-title">⚡ 快手数据分析</h1>
+                
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-label">视频总数</div>
+                        <div class="metric-value" id="kuaishou-total-videos">-</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">平均点赞数</div>
+                        <div class="metric-value" id="kuaishou-avg-likes">-</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">平均观看数</div>
+                        <div class="metric-value" id="kuaishou-avg-views">-</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">创作者数量</div>
+                        <div class="metric-value" id="kuaishou-creators">-</div>
+                    </div>
+                </div>
+
+                <div class="charts-container">
+                    <div class="chart-card">
+                        <h3>🏆 按总点赞数排序的顶级创作者</h3>
+                        <canvas id="kuaishou-top-creators-chart"></canvas>
+                    </div>
+                    <div class="chart-card">
+                        <h3>📅 视频发布时间线</h3>
+                        <div id="kuaishou-timeline-chart"></div>
+                    </div>
+                </div>
+
+                <div class="data-table-container">
+                    <h3>📋 详细视频数据</h3>
+                    <div id="kuaishou-table"></div>
+                </div>
+            </div>
+
+            <!-- Weibo Analytics页面 -->
+            <div id="page-weibo" class="page">
+                <h1 class="page-title">📱 微博数据分析</h1>
+                
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-label">微博总数</div>
+                        <div class="metric-value" id="weibo-total-notes">-</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">平均点赞数</div>
+                        <div class="metric-value" id="weibo-avg-likes">-</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">平均评论数</div>
+                        <div class="metric-value" id="weibo-avg-comments">-</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">创作者数量</div>
+                        <div class="metric-value" id="weibo-creators">-</div>
+                    </div>
+                </div>
+
+                <div class="charts-container">
+                    <div class="chart-card">
+                        <h3>🏆 按总点赞数排序的顶级创作者</h3>
+                        <canvas id="weibo-top-creators-chart"></canvas>
+                    </div>
+                    <div class="chart-card">
+                        <h3>📅 微博发布时间线</h3>
+                        <div id="weibo-timeline-chart"></div>
+                    </div>
+                </div>
+
+                <div class="data-table-container">
+                    <h3>📋 详细微博数据</h3>
+                    <div id="weibo-table"></div>
+                </div>
+            </div>
+
+            <!-- Zhihu Analytics页面 -->
+            <div id="page-zhihu" class="page">
+                <h1 class="page-title">📚 知乎数据分析</h1>
+
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-label">内容总数</div>
+                        <div class="metric-value" id="zhihu-total-contents">-</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">平均赞同数</div>
+                        <div class="metric-value" id="zhihu-avg-votes">-</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">平均评论数</div>
+                        <div class="metric-value" id="zhihu-avg-comments">-</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">创作者数量</div>
+                        <div class="metric-value" id="zhihu-creators">-</div>
+                    </div>
+                </div>
+
+                <div class="charts-container">
+                    <div class="chart-card">
+                        <h3>🏆 按总赞同数排序的顶级创作者</h3>
+                        <canvas id="zhihu-top-creators-chart"></canvas>
+                    </div>
+                    <div class="chart-card">
+                        <h3>📅 内容发布时间线</h3>
+                        <div id="zhihu-timeline-chart"></div>
+                    </div>
+                </div>
+
+                <div class="data-table-container">
+                    <h3>📋 详细内容数据</h3>
+                    <div id="zhihu-table"></div>
+                </div>
+            </div>
+
+            <!-- Tieba Analytics页面 -->
+            <div id="page-tieba" class="page">
+                <h1 class="page-title">💬 贴吧数据分析</h1>
+                
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-label">帖子总数</div>
+                        <div class="metric-value" id="tieba-total-notes">-</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">平均回复数</div>
+                        <div class="metric-value" id="tieba-avg-replies">-</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">创作者数量</div>
+                        <div class="metric-value" id="tieba-creators">-</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">贴吧数量</div>
+                        <div class="metric-value" id="tieba-tiebas">-</div>
+                    </div>
+                </div>
+
+                <div class="charts-container">
+                    <div class="chart-card">
+                        <h3>🏆 按总回复数排序的顶级创作者</h3>
+                        <canvas id="tieba-top-creators-chart"></canvas>
+                    </div>
+                    <div class="chart-card">
+                        <h3>📊 热门贴吧排行</h3>
+                        <canvas id="tieba-top-tiebas-chart"></canvas>
+                    </div>
+                    <div class="chart-card">
+                        <h3>📅 帖子发布时间线</h3>
+                        <div id="tieba-timeline-chart"></div>
+                    </div>
+                </div>
+
+                <div class="data-table-container">
+                    <h3>📋 详细帖子数据</h3>
+                    <div id="tieba-table"></div>
+                </div>
+            </div>
+
+            <!-- Cross-Platform Analysis页面 -->
+            <div id="page-cross-platform" class="page">
+                <h1 class="page-title">🔗 跨平台对比分析</h1>
+                
+                <div class="charts-container">
+                    <div class="chart-card">
+                        <h3>📊 内容数量对比</h3>
+                        <canvas id="cross-platform-volume-chart"></canvas>
+                    </div>
+                    <div class="chart-card">
+                        <h3>📊 平均互动量对比</h3>
+                        <canvas id="cross-platform-engagement-chart"></canvas>
+                    </div>
+                </div>
+
+                <div class="data-table-container">
+                    <h3>📋 平台统计数据</h3>
+                    <div id="cross-platform-table"></div>
+                </div>
+            </div>
+
+            <!-- Semantic Insights页面 -->
+            <div id="page-semantic" class="page">
+                <h1 class="page-title">🧠 语义洞察</h1>
+                
+                <div id="semantic-loading" class="loading-message">加载中...</div>
+                <div id="semantic-empty" class="empty-message" style="display: none;">
+                    暂无语义增强数据，请先运行语义处理流水线。
+                </div>
+                
+                <div id="semantic-content" style="display: none;">
+                    <div class="charts-container">
+                        <div class="chart-card">
+                            <h3>情绪分布</h3>
+                            <canvas id="semantic-sentiment-chart"></canvas>
+                        </div>
+                        <div class="chart-card">
+                            <h3>🔥 热门主题 TOP 20</h3>
+                            <canvas id="semantic-topics-chart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="data-table-container">
+                        <h3>💬 最新语义增强评论</h3>
+                        <div id="semantic-table"></div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="/static/js/dashboard.js"></script>
+</body>
+</html>
+

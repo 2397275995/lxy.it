@@ -25,3 +25,5 @@ alembic>=1.16.5
 asyncmy>=0.2.10
 sqlalchemy>=2.0.43
 motor>=3.3.0
+neo4j==5.26.0
+openai>=1.42.0

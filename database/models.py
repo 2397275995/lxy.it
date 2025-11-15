@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine, Column, Integer, Text, String, BigInteger
+from sqlalchemy import create_engine, Column, Integer, Text, String, BigInteger, Float
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
@@ -432,3 +432,45 @@ class ZhihuCreator(Base):
     get_voteup_count = Column(Integer, default=0)
     add_ts = Column(BigInteger)
     last_modify_ts = Column(BigInteger)
+
+
+class CommentSemantic(Base):
+    __tablename__ = 'comment_semantic'
+    id = Column(Integer, primary_key=True)
+    platform = Column(String(32), index=True, nullable=False)
+    source_table = Column(String(128), nullable=True)
+    comment_id = Column(String(255), nullable=False)
+    comment_unique_id = Column(String(320), nullable=False, unique=True, index=True)
+    content = Column(Text, nullable=False)
+    sentiment_label = Column(String(32), nullable=True, index=True)
+    sentiment_score = Column(Float, nullable=True)
+    summary = Column(Text, nullable=True)
+    topics_json = Column(Text, nullable=True)
+    entities_json = Column(Text, nullable=True)
+    sentences_json = Column(Text, nullable=True)
+    language = Column(String(16), nullable=True, default='zh')
+    model_name = Column(String(128), nullable=True)
+    processed_at = Column(BigInteger, index=True)
+    created_at = Column(BigInteger, index=True)
+    updated_at = Column(BigInteger, index=True)
+
+
+class SemanticEntity(Base):
+    __tablename__ = 'semantic_entity'
+    id = Column(Integer, primary_key=True)
+    entity_unique_key = Column(String(320), unique=True, nullable=False, index=True)
+    name = Column(String(255), nullable=False, index=True)
+    entity_type = Column(String(64), nullable=False, index=True)
+    metadata_json = Column(Text, nullable=True)
+    first_seen_at = Column(BigInteger, index=True)
+    last_seen_at = Column(BigInteger, index=True)
+
+
+class CommentEntityRelation(Base):
+    __tablename__ = 'comment_entity_relation'
+    id = Column(Integer, primary_key=True)
+    comment_unique_id = Column(String(320), nullable=False, index=True)
+    entity_unique_key = Column(String(320), nullable=False, index=True)
+    relation_type = Column(String(64), nullable=True)
+    weight = Column(Float, nullable=True)
+    created_at = Column(BigInteger, index=True)
