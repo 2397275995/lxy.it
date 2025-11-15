@@ -1126,35 +1126,58 @@ def get_cross_platform_data():
         
         # 获取Weibo数据
         try:
+            # 微博的 liked_count, comments_count, shared_count 是 Text 类型，需要特殊处理
             weibo_query = """
             SELECT COUNT(*) as total, 
-                   AVG(CAST(liked_count AS DECIMAL)) as avg_likes,
-                   AVG(CAST(comments_count AS DECIMAL)) as avg_comments,
-                   AVG(CAST(shared_count AS DECIMAL)) as avg_shares,
+                   AVG(CASE 
+                       WHEN liked_count IS NOT NULL AND liked_count != '' 
+                       THEN CAST(liked_count AS DECIMAL) 
+                       ELSE 0 
+                   END) as avg_likes,
+                   AVG(CASE 
+                       WHEN comments_count IS NOT NULL AND comments_count != '' 
+                       THEN CAST(comments_count AS DECIMAL) 
+                       ELSE 0 
+                   END) as avg_comments,
+                   AVG(CASE 
+                       WHEN shared_count IS NOT NULL AND shared_count != '' 
+                       THEN CAST(shared_count AS DECIMAL) 
+                       ELSE 0 
+                   END) as avg_shares,
                    COUNT(DISTINCT nickname) as creators
             FROM weibo_note
-            WHERE liked_count IS NOT NULL
             """
             weibo_df = pd.read_sql(weibo_query, engine)
             
             if not weibo_df.empty:
                 wb_row = weibo_df.iloc[0]
+                total = int(wb_row['total']) if pd.notna(wb_row['total']) else 0
+                
+                # 确保即使值为 0 也显示
                 avg_likes = float(wb_row['avg_likes']) if pd.notna(wb_row['avg_likes']) else 0
                 avg_comments = float(wb_row['avg_comments']) if pd.notna(wb_row['avg_comments']) else 0
                 avg_shares = float(wb_row['avg_shares']) if pd.notna(wb_row['avg_shares']) else 0
-                avg_engagement = (avg_likes + avg_comments + avg_shares) / 3
                 
+                # 计算平均互动量，如果所有值都是 0，则返回 0
+                if avg_likes == 0 and avg_comments == 0 and avg_shares == 0:
+                    avg_engagement = 0
+                else:
+                    avg_engagement = (avg_likes + avg_comments + avg_shares) / 3
+                
+                # 即使数据为 0 也添加到对比数据中
                 comparison_data.append({
                     'platform': 'Weibo',
-                    'total_content': int(wb_row['total']),
+                    'total_content': total,
                     'avg_likes': avg_likes,
                     'avg_comments': avg_comments,
                     'avg_shares': avg_shares,
                     'avg_engagement': avg_engagement,
-                    'unique_creators': int(wb_row['creators'])
+                    'unique_creators': int(wb_row['creators']) if pd.notna(wb_row['creators']) else 0
                 })
         except Exception as e:
             print(f"Error loading Weibo data: {e}")
+            import traceback
+            traceback.print_exc()
         
         # 获取Zhihu数据
         try:

@@ -1189,8 +1189,16 @@ async function loadCrossPlatformData() {
         const result = await response.json();
         
         if (result.success) {
+            console.log('Cross-platform data received:', result.data);
+            // 验证数据
+            if (!result.data || result.data.length === 0) {
+                console.warn('No cross-platform data available');
+                return;
+            }
             drawCrossPlatformCharts(result.data);
             renderCrossPlatformTable(result.data);
+        } else {
+            console.error('Cross-platform API error:', result.error);
         }
     } catch (error) {
         console.error('Error loading cross-platform data:', error);
@@ -1252,7 +1260,45 @@ function drawCrossPlatformCharts(data) {
     }
     
     // 使用avg_engagement如果存在，否则使用avg_likes
-    const engagementData = data.map(item => item.avg_engagement || item.avg_likes || 0);
+    // 注意：需要明确检查 undefined/null，因为 0 是有效值
+    const engagementData = data.map(item => {
+        let value = 0;
+        if (item.avg_engagement !== undefined && item.avg_engagement !== null) {
+            value = item.avg_engagement;
+        } else if (item.avg_likes !== undefined && item.avg_likes !== null) {
+            value = item.avg_likes;
+        }
+        // 确保值是数字类型
+        value = Number(value) || 0;
+        // 调试日志
+        console.log(`Platform: ${item.platform}, avg_engagement: ${item.avg_engagement}, avg_likes: ${item.avg_likes}, final value: ${value}`);
+        return value;
+    });
+    
+    // 调试：打印所有数据
+    console.log('Engagement data:', engagementData);
+    console.log('Platforms:', platforms);
+    
+    // 检查数据中是否有微博
+    const weiboIndex = platforms.indexOf('Weibo');
+    if (weiboIndex !== -1) {
+        console.log(`Weibo found at index ${weiboIndex}, value: ${engagementData[weiboIndex]}`);
+    } else {
+        console.warn('Weibo not found in platforms array:', platforms);
+    }
+    
+    // 计算最大值，用于确保小值也能显示
+    const maxValue = Math.max(...engagementData.filter(v => !isNaN(v) && isFinite(v)));
+    const minVisibleValue = maxValue * 0.01; // 至少显示最大值的1%，确保小值可见
+    
+    // 如果值太小（小于最大值的1%），至少显示最小可见值
+    const adjustedData = engagementData.map((value, index) => {
+        if (value > 0 && value < minVisibleValue && maxValue > 0) {
+            console.log(`Adjusting ${platforms[index]} value from ${value} to ${minVisibleValue} for visibility`);
+            return minVisibleValue;
+        }
+        return value;
+    });
     
     charts.crossPlatformEngagement = new Chart(engagementCtx, {
         type: 'bar',
@@ -1260,10 +1306,13 @@ function drawCrossPlatformCharts(data) {
             labels: platforms,
             datasets: [{
                 label: '平均互动量',
-                data: engagementData,
+                data: adjustedData,
                 backgroundColor: colors,
                 borderColor: colors,
-                borderWidth: 1
+                borderWidth: 1,
+                // 设置柱状图宽度
+                barThickness: 'flex',
+                maxBarThickness: 50
             }]
         },
         options: {
@@ -1272,12 +1321,45 @@ function drawCrossPlatformCharts(data) {
             plugins: {
                 legend: {
                     display: false
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            const index = context.dataIndex;
+                            const originalValue = engagementData[index];
+                            const displayedValue = context.parsed.y;
+                            // 如果显示的值被调整过，在提示中说明
+                            if (originalValue > 0 && originalValue < displayedValue) {
+                                return `平均互动量: ${formatNumber(originalValue)} (已放大显示)`;
+                            }
+                            return '平均互动量: ' + formatNumber(displayedValue);
+                        }
+                    }
                 }
             },
             scales: {
                 y: {
-                    beginAtZero: true
+                    beginAtZero: true,
+                    ticks: {
+                        callback: function(value) {
+                            return formatNumber(value);
+                        },
+                        // 确保显示所有刻度，包括小值
+                        stepSize: null
+                    },
+                    // 如果数据差异很大，可以考虑使用对数刻度（可选）
+                    // type: 'logarithmic'  // 取消注释以使用对数刻度
+                },
+                x: {
+                    ticks: {
+                        // 确保所有平台标签都显示
+                        autoSkip: false
+                    }
                 }
+            },
+            // 确保即使值很小也能看到柱状图
+            animation: {
+                duration: 1000
             }
         }
     });
