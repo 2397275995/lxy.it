@@ -1,52 +1,10 @@
-<<<<<<< HEAD
-# 🔥 MediaCrawler - 自媒体平台爬虫 🕷️
+# 🔥 Social Media Comments Crawler - 社交媒体评论爬虫
 
-<div align="center" markdown="1">
-   <sup>Special thanks to:</sup>
-   <br>
-   <br>
-   <a href="https://go.warp.dev/MediaCrawler">
-      <img alt="Warp sponsorship" width="400" src="https://github.com/warpdotdev/brand-assets/blob/main/Github/Sponsor/Warp-Github-LG-02.png?raw=true">
-   </a>
-
-### [Warp is built for coding with multiple AI agents](https://go.warp.dev/MediaCrawler)
-
-
-</div>
-<hr>
-
-<div align="center">
-
-<a href="https://trendshift.io/repositories/8291" target="_blank">
-  <img src="https://trendshift.io/api/badge/repositories/8291" alt="NanmiCoder%2FMediaCrawler | Trendshift" style="width: 250px; height: 55px;" width="250" height="55"/>
-</a>
-
-[![GitHub Stars](https://img.shields.io/github/stars/NanmiCoder/MediaCrawler?style=social)](https://github.com/NanmiCoder/MediaCrawler/stargazers)
-[![GitHub Forks](https://img.shields.io/github/forks/NanmiCoder/MediaCrawler?style=social)](https://github.com/NanmiCoder/MediaCrawler/network/members)
-[![GitHub Issues](https://img.shields.io/github/issues/NanmiCoder/MediaCrawler)](https://github.com/NanmiCoder/MediaCrawler/issues)
-[![GitHub Pull Requests](https://img.shields.io/github/issues-pr/NanmiCoder/MediaCrawler)](https://github.com/NanmiCoder/MediaCrawler/pulls)
-[![License](https://img.shields.io/github/license/NanmiCoder/MediaCrawler)](https://github.com/NanmiCoder/MediaCrawler/blob/main/LICENSE)
-[![中文](https://img.shields.io/badge/🇨🇳_中文-当前-blue)](README.md)
-[![English](https://img.shields.io/badge/🇺🇸_English-Available-green)](README_en.md)
-[![Español](https://img.shields.io/badge/🇪🇸_Español-Available-green)](README_es.md)
-</div>
-
-
-
-> **免责声明：**
-> 
-> 大家请以学习为目的使用本仓库⚠️⚠️⚠️⚠️，[爬虫违法违规的案件](https://github.com/HiddenStrawberry/Crawler_Illegal_Cases_In_China)  <br>
->
->本仓库的所有内容仅供学习和参考之用，禁止用于商业用途。任何人或组织不得将本仓库的内容用于非法用途或侵犯他人合法权益。本仓库所涉及的爬虫技术仅用于学习和研究，不得用于对其他平台进行大规模爬虫或其他非法行为。对于因使用本仓库内容而引起的任何法律责任，本仓库不承担任何责任。使用本仓库的内容即表示您同意本免责声明的所有条款和条件。
->
-> 点击查看更为详细的免责声明。[点击跳转](#disclaimer)
-
-
-
+一个功能强大的**多平台社交媒体数据采集工具**，支持小红书、抖音、快手、B站、微博、贴吧、知乎等主流平台的公开信息抓取和数据分析。
 
 ## 📖 项目简介
 
-一个功能强大的**多平台自媒体数据采集工具**，支持小红书、抖音、快手、B站、微博、贴吧、知乎等主流平台的公开信息抓取。
+本项目基于 [Playwright](https://playwright.dev/) 浏览器自动化框架，通过保留登录态的浏览器上下文环境获取数据，无需复杂的 JS 逆向工程，大幅降低技术门槛。
 
 ### 🔧 技术原理
 
@@ -55,6 +13,7 @@
 - **优势特点**：无需逆向复杂的加密算法，大幅降低技术门槛
 
 ## ✨ 功能特性
+
 | 平台   | 关键词搜索 | 指定帖子ID爬取 | 二级评论 | 指定创作者主页 | 登录态缓存 | IP代理池 | 生成评论词云图 |
 | ------ | ---------- | -------------- | -------- | -------------- | ---------- | -------- | -------------- |
 | 小红书 | ✅          | ✅              | ✅        | ✅              | ✅          | ✅        | ✅              |
@@ -65,279 +24,223 @@
 | 贴吧   | ✅          | ✅              | ✅        | ✅              | ✅          | ✅        | ✅              |
 | 知乎   | ✅          | ✅              | ✅        | ✅              | ✅          | ✅        | ✅              |
 
+### 🎯 核心功能
 
-
-### 🚀 MediaCrawlerPro 重磅发布！
-
-> 专注于学习成熟项目的架构设计，不仅仅是爬虫技术，Pro 版本的代码设计思路同样值得深入学习！
-
-[MediaCrawlerPro](https://github.com/MediaCrawlerPro) 相较于开源版本的核心优势：
-
-#### 🎯 核心功能升级
-- ✅ **断点续爬功能**（重点特性）
-- ✅ **多账号 + IP代理池支持**（重点特性）
-- ✅ **去除 Playwright 依赖**，使用更简单
-- ✅ **完整 Linux 环境支持**
-
-#### 🏗️ 架构设计优化
-- ✅ **代码重构优化**，更易读易维护（解耦 JS 签名逻辑）
-- ✅ **企业级代码质量**，适合构建大型爬虫项目
-- ✅ **完美架构设计**，高扩展性，源码学习价值更大
-
-#### 🎁 额外功能
-- ✅ **自媒体视频下载器桌面端**（适合学习全栈开发）
-- ✅ **多平台首页信息流推荐**（HomeFeed）
-- [ ] **基于自媒体平台的AI Agent正在开发中 🚀🚀**
-
-点击查看：[MediaCrawlerPro 项目主页](https://github.com/MediaCrawlerPro) 更多介绍
-
+- ✅ **多平台支持**：支持7大主流社交媒体平台
+- ✅ **数据存储**：支持 MySQL、SQLite、MongoDB、CSV、JSON 等多种存储方式
+- ✅ **数据分析**：内置 Flask Dashboard 和 Streamlit Dashboard 进行数据可视化
+- ✅ **语义分析**：支持 LLM 语义增强，提取主题、实体和情感分析
+- ✅ **知识图谱**：支持 Neo4j 知识图谱存储和可视化
+- ✅ **IP代理池**：支持多种代理服务商，自动管理代理IP
+- ✅ **登录态缓存**：自动保存和复用登录状态，减少登录频率
 
 ## 🚀 快速开始
 
-> 💡 **开源不易，如果这个项目对您有帮助，请给个 ⭐ Star 支持一下！**
+### 📋 前置依赖
 
-## 📋 前置依赖
+- Python 3.8+
+- Node.js (用于执行部分 JS 代码)
+- MySQL/SQLite/MongoDB (可选，用于数据存储)
 
-### 🚀 uv 安装（推荐）
+### 🔧 安装步骤
 
-在进行下一步操作之前，请确保电脑上已经安装了 uv：
+1. **克隆仓库**
 
-- **安装地址**：[uv 官方安装指南](https://docs.astral.sh/uv/getting-started/installation)
-- **验证安装**：终端输入命令 `uv --version`，如果正常显示版本号，证明已经安装成功
-- **推荐理由**：uv 是目前最强的 Python 包管理工具，速度快、依赖解析准确
-
-### 🟢 Node.js 安装
-
-项目依赖 Node.js，请前往官网下载安装：
-
-- **下载地址**：https://nodejs.org/en/download/
-- **版本要求**：>= 16.0.0
-
-### 📦 Python 包安装
-
-```shell
-# 进入项目目录
-cd MediaCrawler
-
-# 使用 uv sync 命令来保证 python 版本和相关依赖包的一致性
-uv sync
+```bash
+git clone https://gitlab.com/2397275995/social-media-comments-pachong.git
+cd social-media-comments-pachong/MediaCrawler
 ```
 
-### 🌐 浏览器驱动安装
+2. **安装 Python 依赖**
 
-```shell
-# 安装浏览器驱动
-uv run playwright install
-```
-
-> **💡 提示**：MediaCrawler 目前已经支持使用 playwright 连接你本地的 Chrome 浏览器了，一些因为 Webdriver 导致的问题迎刃而解了。
->
-> 目前开放了 `xhs` 和 `dy` 这两个使用 CDP 的方式连接本地浏览器，如有需要，查看 `config/base_config.py` 中的配置项。
-
-## 🚀 运行爬虫程序
-
-```shell
-# 项目默认是没有开启评论爬取模式，如需评论请在 config/base_config.py 中的 ENABLE_GET_COMMENTS 变量修改
-# 一些其他支持项，也可以在 config/base_config.py 查看功能，写的有中文注释
-
-# 从配置文件中读取关键词搜索相关的帖子并爬取帖子信息与评论
-uv run main.py --platform xhs --lt qrcode --type search
-
-# 从配置文件中读取指定的帖子ID列表获取指定帖子的信息与评论信息
-uv run main.py --platform xhs --lt qrcode --type detail
-
-# 打开对应APP扫二维码登录
-
-# 其他平台爬虫使用示例，执行下面的命令查看
-uv run main.py --help
-```
-
-<details>
-<summary>🔗 <strong>使用 Python 原生 venv 管理环境（不推荐）</strong></summary>
-
-#### 创建并激活 Python 虚拟环境
-
-> 如果是爬取抖音和知乎，需要提前安装 nodejs 环境，版本大于等于：`16` 即可
-
-```shell
-# 进入项目根目录
-cd MediaCrawler
-
-# 创建虚拟环境
-# 我的 python 版本是：3.9.6，requirements.txt 中的库是基于这个版本的
-# 如果是其他 python 版本，可能 requirements.txt 中的库不兼容，需自行解决
-python -m venv venv
-
-# macOS & Linux 激活虚拟环境
-source venv/bin/activate
-
-# Windows 激活虚拟环境
-venv\Scripts\activate
-```
-
-#### 安装依赖库
-
-```shell
+```bash
 pip install -r requirements.txt
 ```
 
-#### 安装 playwright 浏览器驱动
+3. **安装 Playwright 浏览器**
 
-```shell
+```bash
 playwright install
+playwright install-deps
 ```
 
-#### 运行爬虫程序（原生环境）
+4. **配置环境变量**
 
-```shell
-# 项目默认是没有开启评论爬取模式，如需评论请在 config/base_config.py 中的 ENABLE_GET_COMMENTS 变量修改
-# 一些其他支持项，也可以在 config/base_config.py 查看功能，写的有中文注释
+复制并编辑配置文件：
 
-# 从配置文件中读取关键词搜索相关的帖子并爬取帖子信息与评论
-python main.py --platform xhs --lt qrcode --type search
+```bash
+# 编辑数据库配置
+vim config/db_config.py
 
-# 从配置文件中读取指定的帖子ID列表获取指定帖子的信息与评论信息
-python main.py --platform xhs --lt qrcode --type detail
-
-# 打开对应APP扫二维码登录
-
-# 其他平台爬虫使用示例，执行下面的命令查看
-python main.py --help
+# 编辑平台配置（如需要）
+vim config/xhs_config.py  # 小红书配置
+vim config/dy_config.py   # 抖音配置
+# ... 其他平台配置
 ```
 
-</details>
+### 📝 基本使用
 
+#### 1. 爬取小红书数据
 
-## 💾 数据保存
-
-支持多种数据存储方式：
-- **CSV 文件**：支持保存到 CSV 中（`data/` 目录下）
-- **JSON 文件**：支持保存到 JSON 中（`data/` 目录下）
-- **数据库存储**
-  - 使用参数 `--init_db` 进行数据库初始化（使用`--init_db`时不需要携带其他optional）
-  - **SQLite 数据库**：轻量级数据库，无需服务器，适合个人使用（推荐）
-    1. 初始化：`--init_db sqlite`
-    2. 数据存储：`--save_data_option sqlite`
-  - **MySQL 数据库**：支持关系型数据库 MySQL 中保存（需要提前创建数据库）
-    1. 初始化：`--init_db mysql`
-    2. 数据存储：`--save_data_option db`（db 参数为兼容历史更新保留）
-
-
-### 使用示例：
-```shell
-# 初始化 SQLite 数据库（使用'--init_db'时不需要携带其他optional）
-uv run main.py --init_db sqlite
-# 使用 SQLite 存储数据（推荐个人用户使用）
-uv run main.py --platform xhs --lt qrcode --type search --save_data_option sqlite
-```
-```shell
-# 初始化 MySQL 数据库
-uv run main.py --init_db mysql
-# 使用 MySQL 存储数据（为适配历史更新，db参数进行沿用）
-uv run main.py --platform xhs --lt qrcode --type search --save_data_option db
+```bash
+python main.py xhs --keywords "关键词1,关键词2" --max_note_count 10
 ```
 
+#### 2. 爬取抖音数据
 
-[🚀 MediaCrawlerPro 重磅发布 🚀！更多的功能，更好的架构设计！](https://github.com/MediaCrawlerPro)
+```bash
+python main.py douyin --keywords "关键词" --max_aweme_count 20
+```
 
+#### 3. 爬取B站数据
 
-### 💬 交流群组
-- **微信交流群**：[点击加入](https://nanmicoder.github.io/MediaCrawler/%E5%BE%AE%E4%BF%A1%E4%BA%A4%E6%B5%81%E7%BE%A4.html)
+```bash
+python main.py bilibili --keywords "关键词" --max_video_count 30
+```
 
-### 📚 其他
-- **常见问题**：[MediaCrawler 完整文档](https://nanmicoder.github.io/MediaCrawler/)
-- **爬虫入门教程**：[CrawlerTutorial 免费教程](https://github.com/NanmiCoder/CrawlerTutorial)
-- **新闻爬虫开源项目**：[NewsCrawlerCollection](https://github.com/NanmiCoder/NewsCrawlerCollection)
+#### 4. 启动数据分析 Dashboard
+
+**Flask Dashboard (推荐)**
+
+```bash
+python start_flask_dashboard.py
+# 访问 http://localhost:5000
+```
+
+**Streamlit Dashboard**
+
+```bash
+python start_dashboard.py
+# 访问 http://localhost:8501
+```
+
+## 📊 数据分析功能
+
+### Flask Dashboard
+
+基于 Flask 的前后端分离 Dashboard，提供：
+
+- 📈 平台概览数据统计
+- 📊 各平台详细数据分析
+- 🔗 跨平台对比分析
+- 🧠 语义洞察（主题提取、情感分析）
+- 📅 时间线可视化
+
+### 语义分析
+
+支持使用 LLM 对评论进行语义增强：
+
+```bash
+# 运行语义处理流水线
+python run_semantic_pipeline.py
+```
+
+功能包括：
+- 情感分析（正面/中性/负面）
+- 主题提取
+- 实体识别（人物、组织、地点、产品等）
+- 内容摘要
+
+## 📁 项目结构
+
+```
+MediaCrawler/
+├── main.py                 # 主入口文件
+├── config/                 # 配置文件目录
+│   ├── db_config.py        # 数据库配置
+│   ├── xhs_config.py       # 小红书配置
+│   └── ...                 # 其他平台配置
+├── media_platform/         # 各平台爬虫实现
+│   ├── xhs/               # 小红书
+│   ├── douyin/            # 抖音
+│   ├── bilibili/          # B站
+│   └── ...                # 其他平台
+├── database/              # 数据库相关
+│   ├── models.py          # 数据模型
+│   └── db.py              # 数据库连接
+├── flask_dashboard/       # Flask Dashboard
+│   ├── app.py             # Flask 后端
+│   ├── templates/         # HTML 模板
+│   └── static/            # 静态资源
+├── services/              # 服务层
+│   ├── semantic_pipeline.py  # 语义处理流水线
+│   └── llm_client.py      # LLM 客户端
+└── store/                 # 数据存储实现
+    ├── mongodb_store_base.py
+    └── ...
+```
+
+## 🔧 配置说明
+
+### 数据库配置
+
+编辑 `config/db_config.py`：
+
+```python
+# MySQL 配置
+mysql_db_config = {
+    'host': 'localhost',
+    'port': 3306,
+    'user': 'your_user',
+    'password': 'your_password',
+    'db_name': 'your_database'
+}
+
+# SQLite 配置
+sqlite_db_config = {
+    'db_path': './database/sqlite_tables.db'
+}
+```
+
+### 平台配置
+
+各平台的配置在 `config/` 目录下，包括：
+- 登录方式配置
+- 爬取参数配置
+- 代理配置（可选）
+
+## 📚 文档
+
+- [Dashboard 使用指南](DASHBOARD_README.md)
+- [Flask Dashboard 使用指南](flask_dashboard/README.md)
+- [语义分析快速开始](QUICK_START_SEMANTIC.md)
+- [Neo4j 同步说明](NEO4J_SYNC_README.md)
+- [常见问题](docs/常见问题.md)
+
+## ⚠️ 免责声明
+
+> **重要提示：**
+> 
+> 本项目仅供学习和研究使用，禁止用于商业用途。任何人或组织不得将本项目用于非法用途或侵犯他人合法权益。
+> 
+> 使用本项目进行数据采集时，请遵守：
+> - 目标平台的用户协议和服务条款
+> - 相关法律法规（如《网络安全法》、《数据安全法》等）
+> - robots.txt 协议
+> - 合理的爬取频率，避免对目标服务器造成压力
+> 
+> 对于因使用本项目而引起的任何法律责任，本项目不承担任何责任。使用本项目即表示您同意本免责声明的所有条款和条件。
+
+## 🤝 贡献
+
+欢迎提交 Issue 和 Pull Request！
+
+## 📄 许可证
+
+本项目基于原项目 [MediaCrawler](https://github.com/NanmiCoder/MediaCrawler) 进行修改和扩展。
+
+## 🙏 致谢
+
+- 感谢原项目 [MediaCrawler](https://github.com/NanmiCoder/MediaCrawler) 的开源贡献
+- 感谢所有贡献者的支持
+
+## 📮 联系方式
+
+如有问题或建议，请通过以下方式联系：
+
+- 提交 Issue: [GitLab Issues](https://gitlab.com/2397275995/social-media-comments-pachong/-/issues)
+
 ---
 
-### 💰 赞助商展示
+**⭐ 如果这个项目对您有帮助，请给个 Star 支持一下！**
 
-<a href="https://h.wandouip.com">
-<img src="docs/static/images/img_8.jpg">
-<br>
-豌豆HTTP自营千万级IP资源池，IP纯净度≥99.8%，每日保持IP高频更新，快速响应，稳定连接,满足多种业务场景，支持按需定制，注册免费提取10000ip。
-</a>
-
----
-
-<p align="center">
-  <a href="https://tikhub.io/?utm_source=github.com/NanmiCoder/MediaCrawler&utm_medium=marketing_social&utm_campaign=retargeting&utm_content=carousel_ad">
-    <img style="border-radius:20px" width="500" alt="TikHub IO_Banner zh" src="docs/static/images/tikhub_banner_zh.png">
-  </a>
-</p>
-
-[TikHub](https://tikhub.io/?utm_source=github.com/NanmiCoder/MediaCrawler&utm_medium=marketing_social&utm_campaign=retargeting&utm_content=carousel_ad) 提供超过 **700 个端点**，可用于从 **14+ 个社交媒体平台** 获取与分析数据 —— 包括视频、用户、评论、商店、商品与趋势等，一站式完成所有数据访问与分析。
-
-通过每日签到，可以获取免费额度。可以使用我的注册链接：[https://user.tikhub.io/users/signup?referral_code=cfzyejV9](https://user.tikhub.io/users/signup?referral_code=cfzyejV9&utm_source=github.com/NanmiCoder/MediaCrawler&utm_medium=marketing_social&utm_campaign=retargeting&utm_content=carousel_ad) 或使用邀请码：`cfzyejV9`，注册并充值即可获得 **$2 免费额度**。
-
-[TikHub](https://tikhub.io/?utm_source=github.com/NanmiCoder/MediaCrawler&utm_medium=marketing_social&utm_campaign=retargeting&utm_content=carousel_ad) 提供以下服务：
-
-- 🚀 丰富的社交媒体数据接口（TikTok、Douyin、XHS、YouTube、Instagram等）
-- 💎 每日签到免费领取额度
-- ⚡ 高成功率与高并发支持
-- 🌐 官网：[https://tikhub.io/](https://tikhub.io/?utm_source=github.com/NanmiCoder/MediaCrawler&utm_medium=marketing_social&utm_campaign=retargeting&utm_content=carousel_ad)
-- 💻 GitHub地址：[https://github.com/TikHubIO/](https://github.com/TikHubIO/)
-
----
-<p align="center">
-  <a href="https://app.nstbrowser.io/account/register?utm_source=official&utm_term=mediacrawler">
-    <img style="border-radius:20px"  alt="NstBrowser Banner " src="docs/static/images/nstbrowser.jpg">
-  </a>
-</p>
-
-Nstbrowser 指纹浏览器 — 多账号运营&自动化管理的最佳解决方案
-<br>
-多账号安全管理与会话隔离；指纹定制结合反检测浏览器环境，兼顾真实度与稳定性；覆盖店铺管理、电商监控、社媒营销、广告验证、Web3、投放监控与联盟营销等业务线；提供生产级并发与定制化企业服务；提供可一键部署的云端浏览器方案，配套全球高质量 IP 池，为您构建长期行业竞争力
-<br>
-[点击此处即刻开始免费使用](https://app.nstbrowser.io/account/register?utm_source=official&utm_term=mediacrawler)
-<br>
-使用 NSTBROWSER 可获得 10% 充值赠礼
-
-
-
-### 🤝 成为赞助者
-
-成为赞助者，可以将您的产品展示在这里，每天获得大量曝光！
-
-**联系方式**：
-- 微信：`relakkes`
-- 邮箱：`relakkes@gmail.com`
-
----
-
-## ⭐ Star 趋势图
-
-如果这个项目对您有帮助，请给个 ⭐ Star 支持一下，让更多的人看到 MediaCrawler！
-
-[![Star History Chart](https://api.star-history.com/svg?repos=NanmiCoder/MediaCrawler&type=Date)](https://star-history.com/#NanmiCoder/MediaCrawler&Date)
-
-
-
-## 📚 参考
-
-- **小红书客户端**：[ReaJason 的 xhs 仓库](https://github.com/ReaJason/xhs)
-- **短信转发**：[SmsForwarder 参考仓库](https://github.com/pppscn/SmsForwarder)
-- **内网穿透工具**：[ngrok 官方文档](https://ngrok.com/docs/)
-
-
-# 免责声明
-<div id="disclaimer"> 
-
-## 1. 项目目的与性质
-本项目（以下简称“本项目”）是作为一个技术研究与学习工具而创建的，旨在探索和学习网络数据采集技术。本项目专注于自媒体平台的数据爬取技术研究，旨在提供给学习者和研究者作为技术交流之用。
-
-## 2. 法律合规性声明
-本项目开发者（以下简称“开发者”）郑重提醒用户在下载、安装和使用本项目时，严格遵守中华人民共和国相关法律法规，包括但不限于《中华人民共和国网络安全法》、《中华人民共和国反间谍法》等所有适用的国家法律和政策。用户应自行承担一切因使用本项目而可能引起的法律责任。
-
-## 3. 使用目的限制
-本项目严禁用于任何非法目的或非学习、非研究的商业行为。本项目不得用于任何形式的非法侵入他人计算机系统，不得用于任何侵犯他人知识产权或其他合法权益的行为。用户应保证其使用本项目的目的纯属个人学习和技术研究，不得用于任何形式的非法活动。
-
-## 4. 免责声明
-开发者已尽最大努力确保本项目的正当性及安全性，但不对用户使用本项目可能引起的任何形式的直接或间接损失承担责任。包括但不限于由于使用本项目而导致的任何数据丢失、设备损坏、法律诉讼等。
-
-## 5. 知识产权声明
-本项目的知识产权归开发者所有。本项目受到著作权法和国际著作权条约以及其他知识产权法律和条约的保护。用户在遵守本声明及相关法律法规的前提下，可以下载和使用本项目。
-
-## 6. 最终解释权
-关于本项目的最终解释权归开发者所有。开发者保留随时更改或更新本免责声明的权利，恕不另行通知。
-</div>
